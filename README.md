@@ -1,6 +1,42 @@
-# Building the associated model
+# Voice typing test
 
-This repository may contain a built [OpenAI Whisper]() model for use with ONNX. This model was built by roughly following [this tutorial](https://github.com/microsoft/onnxruntime-inference-examples/blob/main/js/ort-whisper/README.md):
+This repository includes models for testing voice typing with Joplin.
+
+## GGML models
+
+The GGML models are for use with [whisper.cpp](https://github.com/ggerganov/whisper.cpp). These models should have the following structure:
+```
+🗃️ modelName.zip/
+| 📄 config.json
+| 📄 model.bin
+| 📄 README.md
+```
+
+Pre-built models that can be used as `model.bin` can be found [on Huggingface](https://huggingface.co/ggerganov/whisper.cpp/tree/main) (licensed under the MIT license). See [the whisper.cpp documentation](https://github.com/ggerganov/whisper.cpp/blob/d682e150908e10caa4c15883c633d7902d385237/models/README.md?plain=1#L74) for information about fine-tuning custom models.
+
+The `config.json` file allows customizing prompting and post-processing. It should have the following format:
+```json
+{
+	"prompts": {
+		"en": "Prompt for English-language text goes here.",
+		"some other language code": "Some prompt here"
+	},
+	"output": {
+		"stringReplacements": [
+			[ "text to replace 1", "replace with" ],
+			[ "text to replace 2", "replace with 2" ]
+		],
+		"regexReplacements": [
+			[ "some.*regular (expression)?", "replace with"],
+			[ "another regular expression", "replace with"]
+		]
+	}
+}
+```
+
+## ONNX: Building the associated model
+
+This repository may contain a built OpenAI Whisper model for use with ONNX. This model was built by roughly following [this tutorial](https://github.com/microsoft/onnxruntime-inference-examples/blob/main/js/ort-whisper/README.md):
 
 To summarize, build by:
 1. Cloning the [Microsoft Olive](https://github.com/microsoft/Olive/tree/main/examples/whisper) repository and [installing Olive](https://github.com/microsoft/Olive/blob/main/examples/README.md).
